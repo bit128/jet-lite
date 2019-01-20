@@ -1,0 +1,14 @@
+{
+  "name": "jet_service",
+  "version": "1.0.0",
+  "description": "for jet service",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "author": "bit128",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}

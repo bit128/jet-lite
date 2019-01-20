@@ -1,0 +1,14 @@
+{
+    "version": "1.0",
+    "android": "1.0",
+    "android_build": 1,
+    "ios": "1.0",
+    "ios_version": 1,
+    "sync_list": {
+        "jet.css": 1,
+        "pure-min.css": 1,
+        "vue-min.js": 1,
+        "home.html": 2,
+        "login.html": 2
+    }
+}
