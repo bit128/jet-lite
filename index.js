@@ -1,9 +1,12 @@
 const fs = require('fs');
 const express = require('express');
 const app = express();
+const body_parse = require('body-parser')
 const port = 8001;
 //设置中间件
 app.use(express.static('jet'));
+app.use(body_parse.json());
+app.use(body_parse.urlencoded({extended: true}));
 
 app.get('/', (req, res) => {
     res.send("jet v1.0");
@@ -69,6 +72,10 @@ app.get('/m/*', (req, res) => {
     } else {
         res.send('url wrong.');
     }
+});
+
+app.post('/getTest', (req, res) => {
+    res.send(req.body.username);
 });
 
 app.listen(port, () => {
