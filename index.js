@@ -47,17 +47,20 @@ app.get('/m/*', (req, res) => {
                     console.error(err);
                 } else {
                     let content = data.toString();
-                    let matchs = content.match(/<asset>([\w\-\.]*?)<\/asset>/ig);
-                    if (matchs) {
-                        for (var i in matchs) {
-                            let sourceFile = matchs[i].substring(7, matchs[i].length-8);
+                    let matchAsset = content.match(/<asset>([\w\-\.]*?)<\/asset>/ig);
+                    if (matchAsset) {
+                        for (var i in matchAsset) {
+                            let sourceFile = matchAsset[i].substring(7, matchAsset[i].length-8);
                             let extName = sourceFile.substring(sourceFile.lastIndexOf('.'), sourceFile.length);
                             if (extName == '.css') {
-                                content = content.replace(matchs[i], '<link href="/'+sourceFile+'" type="text/css" rel="stylesheet" />');
+                                content = content.replace(matchAsset[i], '<link href="/'+sourceFile+'" type="text/css" rel="stylesheet" />');
                             } else if (extName == '.js') {
-                                content = content.replace(matchs[i], '<script src="/'+sourceFile+'" type="text/javascript"></script>');
+                                content = content.replace(matchAsset[i], '<script src="/'+sourceFile+'" type="text/javascript"></script>');
                             }
                         }
+                    }
+                    for (let k in req.query) {
+                        content = content.replace('#'+k+'#', req.query[k]);
                     }
                     content = content.replace('app-page:back', 'javascript:history.back();');
                     content = content.replace('app-page:', '/m/');

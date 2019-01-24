@@ -9,7 +9,8 @@
         "jet.css":          2,
         "pure-min.css":     1,
         "vue-min.js":       1,
-        "home.html":        15,
+        "home.html":        16,
+        "param.html":       1,
         "login.html":       13
     }
 }
