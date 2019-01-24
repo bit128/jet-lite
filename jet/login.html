@@ -7,23 +7,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <asset>pure-min.css</asset>
     <asset>jet.css</asset>
+    <asset>jet.js</asset>
     <asset>vue-min.js</asset>
 </head>
 <body>
     <div id="app">
-        <a href="app-page:back" class="pure-button">关闭</a>
-        <h3>欢迎登录Jet.</h3>
-        <div><small style="color:#999;">{{message}}</small></div>
-        <form class="pure-form pure-form-stacked" v-on:submit.prevent="login()">
-            <label>用户：</label>
-            <input type="text" placeholder="填写账号" v-model="username" />
-            <label>密码：</label>
-            <input type="password" placeholder="填写密码" v-model="password" />
-            <button type="submit" class="pure-button button-green">注册</button>
-        </form>
+        <p style="text-align:center;">
+            <img src="app-local:jet-icon.png" class="pure-image" style="width:80px;" />
+        </p>
+        <div style="padding:16px;">
+            <h3>欢迎登录Jet.</h3>
+            <div><small style="color:#999;">{{message}}</small></div>
+            <form class="pure-form pure-form-stacked" v-on:submit.prevent="login()">
+                <label>用户：</label>
+                <input type="text" placeholder="填写账号" v-model="username" />
+                <label>密码：</label>
+                <input type="password" placeholder="填写密码" v-model="password" />
+                <button type="submit" class="pure-button button-green">注册</button>
+            </form>
+            <p>
+                <a v-on:click="alertTest()" class="pure-button button-orange">弹窗测试</a>
+                <a href="app-page:back" class="pure-button">关闭页面</a>
+            </p>
+        </div>
     </div>
 </body>
 <script>
+    const jet = new Jet();
     new Vue({
         el: '#app',
         data: {
@@ -34,6 +44,12 @@
         methods: {
             login: function(e) {
                 this.message = "user: "+ this.username + ' 已提交信息';
+                jet.httpRequest(jet.apiHost+'getTest', {username:this.username}, function(res){
+                    alert(res);
+                });
+            },
+            alertTest: function(e) {
+                alert('----> 这是来自js的弹窗');
             }
         }
     });

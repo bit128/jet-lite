@@ -17,7 +17,7 @@ app.get('/getConfig', (req, res) => {
         if (err) {
             console.error(err);
         } else {
-            res.setHeader('Content-Type', 'application/json; charset=UTF-8');
+            res.set('Content-Type', 'application/json; charset=UTF-8');
             res.send(data.toString());
         }
     });
@@ -62,7 +62,7 @@ app.get('/m/*', (req, res) => {
                     content = content.replace('app-page:back', 'javascript:history.back();');
                     content = content.replace('app-page:', '/m/');
                     content = content.replace('app-local:', '/image/');
-                    res.setHeader('Content-Type', 'text/html; charset=UTF-8');
+                    res.set('Content-Type', 'text/html; charset=UTF-8');
                     res.send(content);
                 }
             });
@@ -75,7 +75,8 @@ app.get('/m/*', (req, res) => {
 });
 
 app.post('/getTest', (req, res) => {
-    res.send(req.body.username);
+    res.set('Access-Control-Allow-Origin', '*');
+    res.send('--> 来自服务端响应：'+req.body.username);
 });
 
 app.listen(port, () => {

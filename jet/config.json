@@ -1,16 +1,15 @@
 {
-    "version": "1.0",
-    "android": "1.0",
-    "android_build": 1,
-    "ios": "1.0",
-    "ios_version": 1,
+    "version":              "1.0",
+    "android":              "1.0",
+    "android_build":        1,
+    "ios":                  "1.0",
+    "ios_version":          1,
     "sync_list": {
-        "jet.js": 4,
-        "jet.css": 2,
-        "pure-min.css": 1,
-        "vue-min.js": 1,
-
-        "home.html": 11,
-        "login.html": 6
+        "jet.js":           6,
+        "jet.css":          2,
+        "pure-min.css":     1,
+        "vue-min.js":       1,
+        "home.html":        15,
+        "login.html":       13
     }
 }

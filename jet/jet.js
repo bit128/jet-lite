@@ -24,15 +24,47 @@ Jet.prototype = {
         return t.toString(16) + r.toString(16);
     },
     /**
+     * 建立ajax异步网络请求
+     * ======
+     * @param url           访问地址 http://127.0.0.1/test
+     * @param formData      post表单数据（若该字段存在，则表示为post请求方法）
+     * @param callback      响应结果回调
+     * @param resultType    响应结果格式 text（默认） | json
+     */
+    httpRequest: function(url, formData, callback, resultType) {
+        const self = this;
+        let xmlHttp = new XMLHttpRequest();
+        let params = '';
+        let method = 'GET';
+        if (formData) {
+            method = 'POST';
+        }
+        xmlHttp.onreadystatechange = function(){
+            if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                if (resultType == 'json') {
+                    return callback(JSON.parse(xmlHttp.responseText));
+                } else {
+                    return callback(xmlHttp.responseText);
+                }
+            }
+        };
+        xmlHttp.open(method, url, true);
+        if (method == 'POST') {
+            xmlHttp.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+            for (let key in formData) {
+                params += '&' + key + '=' + formData[key];
+            }
+        }
+        if (params != '') {
+            xmlHttp.send(params.substring(1));
+        } else {
+            xmlHttp.send();
+        }
+    },
+    /**
      * 调用桥接层功能模块
      * ====== ======
      * @param name      功能名称
-     * --- 可用值 ---
-     * setContent   设置内容
-     * getContent   获取内容
-     * selectFile   媒体文件选择器（拍照、相册）
-     * updateFile   上传文件
-     * httpRequest  发起网络请求
      * ------ ------
      * @param params    桥接参数
      * --- 参考值 ---
@@ -47,7 +79,7 @@ Jet.prototype = {
      * @param backup    备用逻辑（回调）
      * 如果原生层没有找到桥接方法，则执行这里的逻辑
      */
-    runBridge: function(name, params, backup){
+    addJSBridge: function(name, params, backup){
         if (window.android && window.android[name]) {
             if (params == undefined) {
                 window.android[name]();
@@ -62,20 +94,5 @@ Jet.prototype = {
         } else if (backup != undefined) {
             backup();
         }
-    },
-    setContent: function(key, value, trackId) {
-        this.runBridge('setContent', JSON.stringify({
-            "trackId": trackId,
-            "key": key,
-            "value": value
-        }));
-    },
-    httpRequest: function(method, url, formData, trackId) {
-        this.runBridge('httpRequest', JSON.stringify({
-            "trackId": trackId,
-            "method": method,
-            "url": url,
-            "formData": formData
-        }));
     }
 };
