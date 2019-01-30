@@ -1,9 +1,7 @@
 {
     "version":              "1.0",
-    "android":              "1.0",
-    "android_build":        1,
-    "ios":                  "1.0",
-    "ios_version":          1,
+    "build_ard":            1,
+    "build_ios":            1,
     "sync_list": {
         "jet.js":           6,
         "jet.css":          2,

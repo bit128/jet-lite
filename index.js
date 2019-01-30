@@ -62,9 +62,9 @@ app.get('/m/*', (req, res) => {
                     for (let k in req.query) {
                         content = content.replace('#'+k+'#', req.query[k]);
                     }
-                    content = content.replace('app-page:back', 'javascript:history.back();');
-                    content = content.replace('app-page:', '/m/');
-                    content = content.replace('app-local:', '/image/');
+                    content = content.replace(/app-page:back/g, 'javascript:history.back();');
+                    content = content.replace(/app-page:/g, '/m/');
+                    content = content.replace(/app-local:/g, '/image/');
                     res.set('Content-Type', 'text/html; charset=UTF-8');
                     res.send(content);
                 }
