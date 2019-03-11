@@ -3,24 +3,33 @@ const express = require('express');
 const app = express();
 const body_parse = require('body-parser')
 const port = 8001;
+const version = '1.1';
 //设置中间件
 app.use(express.static('jet'));
 app.use(body_parse.json());
 app.use(body_parse.urlencoded({extended: true}));
 
 app.get('/', (req, res) => {
-    res.send("jet v1.0");
+    res.send("jet version: "+version);
 });
 
-app.get('/getConfig', (req, res) => {
-    fs.readFile('jet/config.json', (err, data) => {
-        if (err) {
-            console.error(err);
-        } else {
-            res.set('Content-Type', 'application/json; charset=UTF-8');
-            res.send(data.toString());
-        }
-    });
+app.get('/getConfig*', (req, res) => {
+    let configFile = 'jet/config.json';
+    if(req.path.length > 10) {
+        configFile = 'jet/config-' + req.path.substring(11) + '.json';
+    }
+    if (fs.existsSync(configFile)) {
+        fs.readFile(configFile, (err, data) => {
+            if (err) {
+                console.error(err);
+            } else {
+                res.set('Content-Type', 'application/json; charset=UTF-8');
+                res.send(data.toString());
+            }
+        });
+    } else {
+        res.send('Config file not found.')
+    }
 });
 
 app.get('/getFile/*', (req, res) => {
@@ -83,5 +92,5 @@ app.post('/getTest', (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log('---->', 'jet service on line.');
+    console.log('---->', 'jet service on line. by: v' + version);
 });
